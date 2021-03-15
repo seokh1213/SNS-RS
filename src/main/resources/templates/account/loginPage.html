@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>LOGIN</title>
+    <link th:href="@{/css/reset.css}" rel="stylesheet"/>
+    <link th:href="@{/css/global.css}" rel="stylesheet"/>
 </head>
 <body>
-
+<form th:action="@{login}" method="post">
+    <span>아이디: </span>
+    <input id="id" type="text" placeholder="아이디" name="id"/>
+    <button type="submit" onclick="checkId(event)">로그인</button>
+</form>
+<div>
+    <a th:href="@{id-update-page}">아이디 변경</a>
+    /
+    <a th:href="@{join-page}">회원가입</a>
+</div>
+<script>
+    checkId = function (event) {
+        event.preventDefault();
+        if (document.getElementById("id").value !== "")
+            document.querySelector("form").submit();
+    }
+</script>
 </body>
 </html>

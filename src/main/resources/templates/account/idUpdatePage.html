@@ -2,12 +2,12 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>JOIN</title>
+    <title>UPDATE</title>
     <link th:href="@{/css/reset.css}" rel="stylesheet"/>
     <link th:href="@{/css/global.css}" rel="stylesheet"/>
 </head>
 <body>
-<form th:action="@{join}" method="post">
+<form th:action="@{id-update}" method="post">
     <div>아이디:
         <input type="text" placeholder="아이디" id="id1"/>
     </div>
@@ -17,7 +17,7 @@
     <input type="hidden" name="id" id="id3"/>
     <br/>
     <div id="warning" style="color:#ee3311;"></div>
-    <button type="submit" onclick="checkId(event)">회원가입</button>
+    <button type="submit" onclick="checkId(event)">아이디 변경</button>
 </form>
 <script>
     checkId = function (event) {
