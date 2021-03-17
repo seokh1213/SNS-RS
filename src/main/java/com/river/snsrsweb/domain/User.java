@@ -1,29 +1,33 @@
 package com.river.snsrsweb.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 public class User {
     @Id
-    @Column
     @GeneratedValue
-    public Long id;
+    private Long id;
 
-    @Column
-    public String phoneNumber;
+    private String phoneNumber;
+    private String password;
 
     @OneToMany(mappedBy = "userId")
-    public List<PhoneBook> phoeBook;
+    private List<PhoneBook> phoeBook;
 
     @ManyToMany
-    @JoinTable
-    public List<User> follows;
+    @JoinTable(
+            name="FOLLOWS",
+            joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="follow_id")
+    )
+    private List<User> follows;
 
-    @ManyToMany
-    @JoinTable
-    public List<User> followers;
+    @ManyToMany(mappedBy = "follows")
+    private List<User> followers;
 }

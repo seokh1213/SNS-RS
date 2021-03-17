@@ -1,20 +1,20 @@
 package com.river.snsrsweb.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 public class PhoneBook {
     @Id
-    @Column
     @GeneratedValue
-    public Long id;
+    private Long id;
 
-    @Column
-    public String phoneNumber;
+    private String phoneNumber;
 
     @ManyToOne
-    public User userId;
+    private User userId;
 }

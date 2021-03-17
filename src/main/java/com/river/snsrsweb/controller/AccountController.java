@@ -1,40 +1,59 @@
 package com.river.snsrsweb.controller;
 
+import com.river.snsrsweb.service.AccountService;
 import org.hibernate.procedure.NoSuchParameterException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.security.auth.login.FailedLoginException;
 
 @Controller
 @RequestMapping("/account")
 public class AccountController {
-    @GetMapping(path = {"","/", "/login-page"})
+
+    @Autowired
+    private AccountService accountService;
+
+    @GetMapping(path = {"","/", "/login"})
     public String loginPage(){
         return "/account/loginPage";
     }
-    @GetMapping("/join-page")
+    @GetMapping("/join")
     public String joinPage(){
         return "/account/joinPage";
     }
-    @GetMapping("/id-update-page")
+    @GetMapping("/update")
     public String idUpdatePage(){
         return "/account/idUpdatePage";
     }
 
     @PostMapping("/join")
-    public String join(@RequestParam(value = "id") String id) throws NoSuchParameterException {
+    public String join(@RequestParam(value = "id") String id) throws NoSuchParameterException, ResponseStatusException {
         if(id.equals("")) throw new NoSuchParameterException("Parameter 'id' is not exists.");
-        return "redirect:/account/login-page";
+        if(!accountService.join(id)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "That id is already exists.");
+        }
+        return "redirect:/account/login";
     }
-    @PostMapping("/login")
-    public String login(@RequestParam(value = "id") String id)  throws NoSuchParameterException {
+//    @PostMapping("/login")
+//    public String login(@RequestParam(value = "id") String id)  throws NoSuchParameterException, ResponseStatusException {
+//        System.out.println(id);
+//        if(id.equals("")) throw new NoSuchParameterException("Parameter 'id' is not exists.");
+//        if(!accountService.login(id)){
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no account.");
+//        }
+//        System.out.println(id);
+//        return "redirect:/friend/recommend-list?id="+id;
+//    }
+    @PostMapping("/update")
+    public String idUpdate(@RequestParam(value = "id") String id) throws NoSuchParameterException, ResponseStatusException{
         if(id.equals("")) throw new NoSuchParameterException("Parameter 'id' is not exists.");
-        return "redirect:/friend/recommend-list?id="+id;
-    }
-    @PostMapping("/id-update")
-    public String idUpdate(@RequestParam(value = "id") String id) throws NoSuchParameterException{
-        if(id.equals("")) throw new NoSuchParameterException("Parameter 'id' is not exists.");
-        return "redirect:/account/login-page";
+        if(!accountService.idUpdate(id)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Something is worng.");
+        }
+        return "redirect:/account/login";
     }
 }
