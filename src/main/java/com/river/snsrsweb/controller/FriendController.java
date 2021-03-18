@@ -6,7 +6,6 @@ import com.river.snsrsweb.service.FriendService;
 import org.hibernate.procedure.NoSuchParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +33,21 @@ public class FriendController {
         model.addAttribute("list",unfollowList);
         return "/friend/recommendList";
     }
+
+    @GetMapping("/recommend-list-api")
+    @ResponseBody
+    public List<User> recommendList(@SessionAttribute("userId") String id){
+        List<User> unfollowList=new ArrayList<>();
+        if(!id.equals("")){
+            unfollowList =service.unfollowList(id);
+            System.out.println(unfollowList);
+            for(User user: unfollowList){
+                System.out.println(user.getPhoneNumber());
+            }
+        }
+        return unfollowList;
+    }
+
     @GetMapping("/my-follow-list")
     public String myFollowList(Model model, @SessionAttribute("userId") String id){
         List<User> followList=new ArrayList<>();

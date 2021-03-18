@@ -15,6 +15,7 @@ public class User {
     private Long id;
 
     private String phoneNumber;
+
     private String password;
 
     @OneToMany(mappedBy = "userId")
