@@ -50,8 +50,6 @@ public class AccountService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
         User user = repository.findByPhoneNumber(phoneNumber);
-        System.out.println(phoneNumber);
-        System.out.println(user==null);
         if(user==null)
             throw new UsernameNotFoundException("존재하지 않는 유저입니다. ("+phoneNumber+")");
         return new org.springframework.security.core.userdetails.User(user.getPhoneNumber(), user.getPassword(), Arrays.asList(new SimpleGrantedAuthority("USER")));

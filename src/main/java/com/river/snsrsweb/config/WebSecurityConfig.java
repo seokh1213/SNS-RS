@@ -23,8 +23,11 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -77,7 +80,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/account/login")
         .and()
-            .exceptionHandling().accessDeniedPage("/account/login");
+            .exceptionHandling().accessDeniedPage("/account/login")
+        .and()
+            .addFilterBefore(new OncePerRequestFilter() {
+                @Override
+                protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+                    HttpSession session=request.getSession();
+                    if(request.getRequestURL().toString().indexOf("/account/logout")==-1
+                            && request.getRequestURL().toString().indexOf("/account")!=-1
+                            && session.getAttribute("userId")!=null) {
+                        response.sendRedirect("/friend/recommend-list");
+                        return;
+                    }
+                    filterChain.doFilter(request,response);
+                }
+            }, LogoutFilter.class);
     }
 
     @Override
