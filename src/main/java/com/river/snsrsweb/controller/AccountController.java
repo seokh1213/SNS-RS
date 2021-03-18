@@ -5,10 +5,12 @@ import org.hibernate.procedure.NoSuchParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.security.auth.login.FailedLoginException;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/account")
@@ -40,11 +42,12 @@ public class AccountController {
     }
 
     @PostMapping("/update")
-    public String idUpdate(@RequestParam(value = "id") String id) throws NoSuchParameterException, ResponseStatusException{
+    public String idUpdate(@SessionAttribute("userId") String id, @RequestParam(value = "id") String newId, HttpSession session) throws NoSuchParameterException, ResponseStatusException{
         if(id.equals("")) throw new NoSuchParameterException("Parameter 'id' is not exists.");
-        if(!accountService.idUpdate(id)){
+        if(!accountService.idUpdate(id, newId)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Something is worng.");
         }
+        session.setAttribute("userId", newId);
         return "redirect:/account/login";
     }
 

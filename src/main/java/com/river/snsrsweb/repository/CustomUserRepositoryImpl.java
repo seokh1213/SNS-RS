@@ -12,17 +12,25 @@ public class CustomUserRepositoryImpl implements CustomUserRepository{
 
     @Override
     public List<User> unFollowList(String phoneNumber) {
-        return entityManager.createNativeQuery(
-                "SELECT u.ID, u.PHONE_NUMBER, u.PASSWORD " +
-                        "FROM USER u " +
-                        "WHERE u.PHONE_NUMBER != ?1 AND " +
-                        "u.PHONE_NUMBER NOT IN (" +
-                            "SELECT us.PHONE_NUMBER " +
-                            "FROM USER us, FOLLOWS fw " +
-                            "WHERE fw.FOLLOW_ID = us.ID AND " +
-                            "fw.USER_ID = ?1" +
-                        ")"
-                , User.class)
-                .setParameter(1,phoneNumber).getResultList();
+        List<User> follows=  entityManager.createNativeQuery(
+                "SELECT *" +
+                        "FROM user u, follows fw" +
+                        "WHERE fw.user_id=()"
+        , User.class)
+                .setParameter(1,phoneNumber)
+                .getResultList();
+        return null;
+//        return entityManager.createNativeQuery(
+//                "SELECT u.ID, u.PHONE_NUMBER, u.PASSWORD " +
+//                        "FROM USER u " +
+//                        "WHERE u.PHONE_NUMBER != ?1 AND " +
+//                        "u.PHONE_NUMBER NOT IN (" +
+//                            "SELECT us.PHONE_NUMBER " +
+//                            "FROM USER us, FOLLOWS fw " +
+//                            "WHERE fw.FOLLOW_ID = us.ID AND " +
+//                            "fw.USER_ID = ?1" +
+//                        ")"
+//                , User.class)
+//                .setParameter(1,phoneNumber).getResultList();
     }
 }

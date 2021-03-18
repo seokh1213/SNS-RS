@@ -26,9 +26,10 @@ public class FriendController {
         if(!id.equals("")){
             unfollowList =service.unfollowList(id);
             System.out.println(unfollowList);
-            for(User user: unfollowList){
-                System.out.println(user.getPhoneNumber());
-            }
+            if(unfollowList!=null)
+                for(User user: unfollowList){
+                    System.out.println(user.getPhoneNumber());
+                }
         }
         model.addAttribute("list",unfollowList);
         return "/friend/recommendList";
@@ -41,9 +42,10 @@ public class FriendController {
         if(!id.equals("")){
             unfollowList =service.unfollowList(id);
             System.out.println(unfollowList);
-            for(User user: unfollowList){
-                System.out.println(user.getPhoneNumber());
-            }
+            if(unfollowList!=null)
+                for(User user: unfollowList){
+                    System.out.println(user.getPhoneNumber());
+                }
         }
         return unfollowList;
     }

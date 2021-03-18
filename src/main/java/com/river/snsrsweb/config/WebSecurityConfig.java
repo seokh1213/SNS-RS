@@ -87,6 +87,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
                     HttpSession session=request.getSession();
                     if(request.getRequestURL().toString().indexOf("/account/logout")==-1
+                            && request.getRequestURL().toString().indexOf("/account/update")==-1
                             && request.getRequestURL().toString().indexOf("/account")!=-1
                             && session.getAttribute("userId")!=null) {
                         response.sendRedirect("/friend/recommend-list");

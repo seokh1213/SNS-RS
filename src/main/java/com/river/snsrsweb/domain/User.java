@@ -21,7 +21,7 @@ public class User {
     @OneToMany(mappedBy = "userId")
     private List<PhoneBook> phoeBook;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name="FOLLOWS",
             joinColumns = @JoinColumn(name="user_id"),
@@ -29,6 +29,6 @@ public class User {
     )
     private List<User> follows;
 
-    @ManyToMany(mappedBy = "follows")
+    @ManyToMany(mappedBy = "follows", cascade = CascadeType.ALL)
     private List<User> followers;
 }
