@@ -23,8 +23,11 @@ public class FriendService {
         User user = repository.findByPhoneNumber(id);
         User opponent = repository.findByPhoneNumber(opponentId);
         List<User> followList = user.getFollows();
+        List<User> followerList = opponent.getFollowers();
         followList.add(opponent);
+        followerList.add(user);
         repository.save(user);
+        repository.save(opponent);
         return true;
     }
 
@@ -38,8 +41,11 @@ public class FriendService {
         User user = repository.findByPhoneNumber(id);
         User opponent = repository.findByPhoneNumber(opponentId);
         List<User> followList = user.getFollows();
+        List<User> followerList = opponent.getFollowers();
         followList.remove(opponent);
+        followerList.remove(user);
         repository.save(user);
+        repository.save(opponent);
         return true;
     }
 

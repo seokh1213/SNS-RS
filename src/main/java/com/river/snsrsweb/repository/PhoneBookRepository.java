@@ -5,5 +5,5 @@ import com.river.snsrsweb.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PhoneBookRepository extends JpaRepository<PhoneBook, Long> {
-    PhoneBook findByUserId(User userId);
+    PhoneBook findByUser(User user);
 }

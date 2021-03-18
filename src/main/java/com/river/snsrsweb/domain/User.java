@@ -1,9 +1,11 @@
 package com.river.snsrsweb.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,8 +20,8 @@ public class User {
 
     private String password;
 
-    @OneToMany(mappedBy = "userId")
-    private List<PhoneBook> phoeBook;
+    @OneToMany(mappedBy = "user")
+    private List<PhoneBook> phoneBooks=new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -27,8 +29,8 @@ public class User {
             joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="follow_id")
     )
-    private List<User> follows;
+    private List<User> follows=new ArrayList<>();
 
     @ManyToMany(mappedBy = "follows", cascade = CascadeType.ALL)
-    private List<User> followers;
+    private List<User> followers=new ArrayList<>();
 }

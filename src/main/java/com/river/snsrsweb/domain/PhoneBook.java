@@ -16,5 +16,5 @@ public class PhoneBook {
     private String phoneNumber;
 
     @ManyToOne
-    private User userId;
+    private User user;
 }
