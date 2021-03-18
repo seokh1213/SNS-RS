@@ -38,16 +38,7 @@ public class AccountController {
         }
         return "redirect:/account/login";
     }
-//    @PostMapping("/login")
-//    public String login(@RequestParam(value = "id") String id)  throws NoSuchParameterException, ResponseStatusException {
-//        System.out.println(id);
-//        if(id.equals("")) throw new NoSuchParameterException("Parameter 'id' is not exists.");
-//        if(!accountService.login(id)){
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no account.");
-//        }
-//        System.out.println(id);
-//        return "redirect:/friend/recommend-list?id="+id;
-//    }
+
     @PostMapping("/update")
     public String idUpdate(@RequestParam(value = "id") String id) throws NoSuchParameterException, ResponseStatusException{
         if(id.equals("")) throw new NoSuchParameterException("Parameter 'id' is not exists.");
@@ -56,4 +47,6 @@ public class AccountController {
         }
         return "redirect:/account/login";
     }
+
+
 }
