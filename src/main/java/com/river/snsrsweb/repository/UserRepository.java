@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByPhoneNumber(String phoneNumber);
 
     // unfollow list
-    @Query(value="SELECT * FROM USER u WHERE u.PHONE_NUMBER!=?1 AND u.PHONE_NUMBER NOT IN (SELECT us.PHONE_NUMBER FROM USER us, FOLLOWS fw WHERE fw.follow_id=us.id AND fw.user_id=?1)", nativeQuery = true)
+    @Query(value="SELECT * FROM user u WHERE u.phone_number!=?1 AND u.phone_number NOT IN (SELECT us.phone_number FROM user us, follows fw WHERE fw.follow_id=us.id AND fw.user_id=?1)", nativeQuery = true)
     List<User> unFollowList(String phoneNumber);
 
 }

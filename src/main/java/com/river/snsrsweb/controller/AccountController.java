@@ -48,5 +48,4 @@ public class AccountController {
         return "redirect:/account/login";
     }
 
-
 }
