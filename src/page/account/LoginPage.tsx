@@ -10,10 +10,10 @@ const LoginPage = ({ setLogin }: IProps) => {
   const loginHandler = () => {
     if (phoneNumber === "") return;
 
-    // dev
-    localStorage.setItem("token", "token");
-    setLogin(true);
-    return;
+    // // dev
+    // localStorage.setItem("token", "token");
+    // setLogin(true);
+    // return;
 
     fetch(process.env.REACT_APP_API_URL + "/login", {
       method: "POST",
@@ -32,7 +32,7 @@ const LoginPage = ({ setLogin }: IProps) => {
       });
   };
   return (
-    <div className="bg-color">
+    <div>
       <form>
         <input
           type="text"
