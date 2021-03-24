@@ -17,7 +17,12 @@ interface IData {
   };
 }
 
-const FriendListPage = () => {
+interface IProps {
+  setPath?: any;
+}
+
+const FriendListPage = ({ setPath }: IProps) => {
+  setPath && setPath();
   const token = localStorage.getItem("token");
   const [currentType, setType] = React.useState(0);
   const [shouldFetch, setShouldFetch] = React.useState(true);
@@ -120,13 +125,34 @@ const FriendListPage = () => {
     }
   }, [shouldFetch]);
   return (
-    <div>
-      <ul>
-        <li onClick={() => currentType !== 0 && setType(0)}>추천 리스트</li>
-        <li onClick={() => currentType !== 1 && setType(1)}>팔로우</li>
-        <li onClick={() => currentType !== 2 && setType(2)}>팔로워</li>
+    <div className=" w-3/4 mx-auto mt-10 flex flex-col flex-1">
+      <ul className="ml-4 flex text-gray-700">
+        <li
+          className={`cursor-pointer mr-4 ${
+            currentType === 0 && "text-blue-500"
+          }`}
+          onClick={() => currentType !== 0 && setType(0)}
+        >
+          추천
+        </li>
+        <li
+          className={`cursor-pointer mr-4 ${
+            currentType === 1 && "text-blue-500"
+          }`}
+          onClick={() => currentType !== 1 && setType(1)}
+        >
+          팔로우
+        </li>
+        <li
+          className={`cursor-pointer mr-4 ${
+            currentType === 2 && "text-blue-500"
+          }`}
+          onClick={() => currentType !== 2 && setType(2)}
+        >
+          팔로워
+        </li>
       </ul>
-      <ul>
+      <ul className="flex-1 bg-white mt-2 rounded-sm border">
         {data[currentType].list.map((e) => (
           <li key={e.id}>
             <div>

@@ -4,12 +4,15 @@ import { Link } from "react-router-dom";
 
 interface IProps {
   alter?: boolean;
+  setPath?: any;
 }
-const AccountPage = ({ alter = false }: IProps) => {
+const AccountPage = ({ alter = false, setPath }: IProps) => {
   const [phoneNumber, setPhoneNumber] = React.useState("");
   const [isJoinSuccess, setSuccess] = React.useState(false);
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+
+  setPath && setPath();
 
   const joinHandler = () => {
     if (phoneNumber === "" && !loading) return;
@@ -35,36 +38,40 @@ const AccountPage = ({ alter = false }: IProps) => {
   return isJoinSuccess ? (
     <Redirect to="/" />
   ) : (
-    <div className=" h-60 w-1/3 max-w-sm mb-56 border border-gray-300 bg-white flex flex-col p-10">
-      <div className=" w-full pb-1 mb-2 text-gray-500 text-sm">
-        {alter ? "수정" : "회원가입"}
-      </div>
-      <form className="flex flex-col">
-        <input
-          className=" w-full h-10 border border-gray-300 rounded-lg p-2"
-          type="text"
-          placeholder="전화번호"
-          value={phoneNumber}
-          onChange={(e) => {
-            setPhoneNumber(e.target.value);
-          }}
-        />
-        {error !== "" && <div className=" text-red-500 text-sm">{error}</div>}
-        <button
-          className="w-full h-10 my-4 bg-blue-500 text-white border rounded-lg p-2 active:bg-blue-400"
-          onClick={(event) => {
-            event.preventDefault();
-            joinHandler();
-          }}
-        >
-          {loading ? "..." : alter ? "수정" : "회원가입"}
-        </button>
-      </form>
-      <div className="text-sm">
-        로그인 페이지로{" "}
-        <Link to="/login" className=" text-blue-500 font-bold">
-          이동
-        </Link>
+    <div className="flex h-full items-center justify-center">
+      <div className=" h-60 w-1/3 max-w-sm mb-56 border border-gray-300 bg-white flex flex-col p-10">
+        <div className=" w-full pb-1 mb-2 text-gray-500 text-sm">
+          {alter ? "수정" : "회원가입"}
+        </div>
+        <form className="flex flex-col">
+          <input
+            className=" w-full h-10 border border-gray-300 rounded-lg p-2"
+            type="text"
+            placeholder="전화번호"
+            value={phoneNumber}
+            onChange={(e) => {
+              setPhoneNumber(e.target.value);
+            }}
+          />
+          {error !== "" && <div className=" text-red-500 text-sm">{error}</div>}
+          <button
+            className="w-full h-10 my-4 bg-blue-500 text-white border rounded-lg p-2 active:bg-blue-400"
+            onClick={(event) => {
+              event.preventDefault();
+              joinHandler();
+            }}
+          >
+            {loading ? "..." : alter ? "수정" : "회원가입"}
+          </button>
+        </form>
+        {!alter && (
+          <div className="text-sm">
+            로그인 페이지로{" "}
+            <Link to="/login" className=" text-blue-500 font-bold">
+              이동
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
