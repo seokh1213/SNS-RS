@@ -1,35 +1,19 @@
 import React from "react";
 import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
 
 interface IProps {
   alter?: boolean;
 }
 const AccountPage = ({ alter = false }: IProps) => {
   const [phoneNumber, setPhoneNumber] = React.useState("");
-  const [canUseId, setUseId] = React.useState(false);
   const [isJoinSuccess, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
-  const checkHandler = () => {
-    if (phoneNumber === "") return;
-
-    fetch(process.env.REACT_APP_API_URL + "/check", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: phoneNumber }),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log(json);
-        setUseId(json.ok);
-        if (json.error) {
-          alert("이미 있는 아이디입니다.");
-        }
-      });
-  };
   const joinHandler = () => {
-    if (phoneNumber === "") return;
+    if (phoneNumber === "" && !loading) return;
+    setLoading(true);
     fetch(process.env.REACT_APP_API_URL + "/join", {
       method: "POST",
       headers: {
@@ -42,44 +26,46 @@ const AccountPage = ({ alter = false }: IProps) => {
         if (json.ok) {
           setSuccess(true);
         } else {
-          alert(json.error);
+          setError("아이디가 이미 존재합니다.");
         }
-      });
+      })
+      .catch((error) => setError("서버와의 연결 문제가 있습니다."))
+      .finally(() => setLoading(false));
   };
   return isJoinSuccess ? (
     <Redirect to="/" />
   ) : (
-    <div>
-      <form>
+    <div className=" h-60 w-1/3 max-w-sm mb-56 border border-gray-300 bg-white flex flex-col p-10">
+      <div className=" w-full pb-1 mb-2 text-gray-500 text-sm">
+        {alter ? "수정" : "회원가입"}
+      </div>
+      <form className="flex flex-col">
         <input
+          className=" w-full h-10 border border-gray-300 rounded-lg p-2"
           type="text"
           placeholder="전화번호"
           value={phoneNumber}
           onChange={(e) => {
-            setUseId(false);
             setPhoneNumber(e.target.value);
           }}
         />
+        {error !== "" && <div className=" text-red-500 text-sm">{error}</div>}
         <button
-          onClick={(event) => {
-            event.preventDefault();
-            checkHandler();
-          }}
-        >
-          중복확인
-        </button>
-        {phoneNumber !== "" && !canUseId && <div>중복확인해주세요</div>}
-        <br />
-        <button
+          className="w-full h-10 my-4 bg-blue-500 text-white border rounded-lg p-2 active:bg-blue-400"
           onClick={(event) => {
             event.preventDefault();
             joinHandler();
           }}
-          disabled={!canUseId}
         >
-          {alter ? "수정" : "회원가입"}
+          {loading ? "..." : alter ? "수정" : "회원가입"}
         </button>
       </form>
+      <div className="text-sm">
+        로그인 페이지로{" "}
+        <Link to="/login" className=" text-blue-500 font-bold">
+          이동
+        </Link>
+      </div>
     </div>
   );
 };

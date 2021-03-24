@@ -12,43 +12,45 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        {isLogin ? (
-          <>
-            <div>
-              <Link to="/friends">친구들</Link>
-              <Link to="/update">정보 수정</Link>
-              <span
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  setLogin(false);
-                }}
-              >
-                로그아웃
-              </span>
-            </div>
-            <Route path="/friends">
-              <FriendListPage />
-            </Route>
-            <Route path="/update">
-              <AccountPage alter={true} />
-            </Route>
-            <Route path="*">
-              <Redirect to="/friends" />
-            </Route>
-          </>
-        ) : (
-          <>
-            <Route path="/login">
-              <LoginPage setLogin={setLogin} />
-            </Route>
-            <Route path="/join">
-              <AccountPage />
-            </Route>
-            <Route path="*">
-              <Redirect to="/login" />
-            </Route>
-          </>
-        )}
+        <div className="flex items-center justify-center h-screen bg-gray-100">
+          {isLogin ? (
+            <>
+              <div>
+                <Link to="/friends">친구들</Link>
+                <Link to="/update">정보 수정</Link>
+                <span
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    setLogin(false);
+                  }}
+                >
+                  로그아웃
+                </span>
+              </div>
+              <Route path="/friends">
+                <FriendListPage />
+              </Route>
+              <Route path="/update">
+                <AccountPage alter={true} />
+              </Route>
+              <Route path="*">
+                <Redirect to="/friends" />
+              </Route>
+            </>
+          ) : (
+            <>
+              <Route path="/login">
+                <LoginPage setLogin={setLogin} />
+              </Route>
+              <Route path="/join">
+                <AccountPage />
+              </Route>
+              <Route path="*">
+                <Redirect to="/login" />
+              </Route>
+            </>
+          )}
+        </div>
       </Switch>
     </BrowserRouter>
   );
