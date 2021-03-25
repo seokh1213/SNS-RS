@@ -12,6 +12,9 @@ const AccountPage = ({ alter = false, setPath }: IProps) => {
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
+  const BASE_URL =
+    process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_URL : "";
+
   setPath && setPath();
 
   const joinHandler = () => {
@@ -36,7 +39,7 @@ const AccountPage = ({ alter = false, setPath }: IProps) => {
       .finally(() => setLoading(false));
   };
   return isJoinSuccess ? (
-    <Redirect to="/" />
+    <Redirect to={BASE_URL + "/"} />
   ) : (
     <div className="flex h-full items-center justify-center">
       <div className=" h-60 w-1/3 max-w-sm mb-56 border border-gray-300 bg-white flex flex-col p-10">
@@ -67,7 +70,7 @@ const AccountPage = ({ alter = false, setPath }: IProps) => {
         {!alter && (
           <div className="text-sm">
             로그인 페이지로{" "}
-            <Link to="/login" className=" text-blue-500 font-bold">
+            <Link to={BASE_URL + "/login"} className=" text-blue-500 font-bold">
               이동
             </Link>
           </div>

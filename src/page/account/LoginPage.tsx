@@ -10,14 +10,12 @@ const LoginPage = ({ setLogin }: IProps) => {
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
+  const BASE_URL =
+    process.env.NODE_ENV === "production" ? process.env.REACT_APP_BASE_URL : "";
+
   const loginHandler = () => {
     if (phoneNumber === "" && !loading) return;
     setLoading(true);
-
-    // dev
-    localStorage.setItem("token", "token");
-    setLogin(true);
-    return;
 
     fetch(process.env.REACT_APP_API_URL + "/login", {
       method: "POST",
@@ -65,7 +63,7 @@ const LoginPage = ({ setLogin }: IProps) => {
         </form>
         <div className="text-sm">
           계정이 없으신가요?{" "}
-          <Link to="/join" className=" text-blue-500 font-bold">
+          <Link to={BASE_URL + "/join"} className=" text-blue-500 font-bold">
             가입하기
           </Link>
         </div>

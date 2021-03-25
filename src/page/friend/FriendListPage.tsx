@@ -1,4 +1,3 @@
-import { listenerCount } from "node:events";
 import React from "react";
 
 interface IUser {
@@ -28,7 +27,10 @@ const FriendListPage = ({ setPath }: IProps) => {
   const [shouldFetch, setShouldFetch] = React.useState(true);
   const [data, setData] = React.useState<IData>({
     0: {
-      list: [],
+      list: [
+        { id: 1, phoneNumber: "01012345678", isFollow: false },
+        { id: 2, phoneNumber: "01012345678", isFollow: false },
+      ],
       error: null,
       loading: false,
       page: 0,
@@ -125,7 +127,7 @@ const FriendListPage = ({ setPath }: IProps) => {
     }
   }, [shouldFetch]);
   return (
-    <div className=" w-3/4 mx-auto mt-10 flex flex-col flex-1">
+    <div className=" w-3/4 max-w-2xl mx-auto mt-10 flex flex-col flex-1">
       <ul className="ml-4 flex text-gray-700">
         <li
           className={`cursor-pointer mr-4 ${
@@ -154,28 +156,34 @@ const FriendListPage = ({ setPath }: IProps) => {
       </ul>
       <ul className="flex-1 bg-white mt-2 rounded-sm border">
         {data[currentType].list.map((e) => (
-          <li key={e.id}>
-            <div>
-              <span>{e.phoneNumber}</span>
-              <button
-                onClick={() => {
-                  setData({
-                    ...data,
-                    [currentType]: {
-                      ...data[currentType],
-                      list: data[currentType].list.map((user) =>
-                        user.id === e.id
-                          ? { ...user, isFollow: !user.isFollow }
-                          : user
-                      ),
-                    },
-                  });
-                  e.isFollow ? unfollow(e.id) : follow(e.id);
-                }}
-              >
-                {e.isFollow ? "언팔로우" : "팔로우"}
-              </button>
-            </div>
+          <li
+            key={e.id}
+            className="h-12 p-4 flex items-center border-b border-gray-100"
+          >
+            <span className="text-gray-600 flex-1">{e.phoneNumber}</span>
+            <button
+              className={`h-7 rounded-md px-2 text-sm ${
+                e.isFollow
+                  ? "border border-gray-300 bg-white text-gray-500"
+                  : "bg-blue-500 text-white"
+              }`}
+              onClick={() => {
+                setData({
+                  ...data,
+                  [currentType]: {
+                    ...data[currentType],
+                    list: data[currentType].list.map((user) =>
+                      user.id === e.id
+                        ? { ...user, isFollow: !user.isFollow }
+                        : user
+                    ),
+                  },
+                });
+                e.isFollow ? unfollow(e.id) : follow(e.id);
+              }}
+            >
+              {e.isFollow ? "언팔로우" : "팔로우"}
+            </button>
           </li>
         ))}
       </ul>
