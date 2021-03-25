@@ -27,10 +27,7 @@ const FriendListPage = ({ setPath }: IProps) => {
   const [shouldFetch, setShouldFetch] = React.useState(true);
   const [data, setData] = React.useState<IData>({
     0: {
-      list: [
-        { id: 1, phoneNumber: "01012345678", isFollow: false },
-        { id: 2, phoneNumber: "01012345678", isFollow: false },
-      ],
+      list: [],
       error: null,
       loading: false,
       page: 0,
